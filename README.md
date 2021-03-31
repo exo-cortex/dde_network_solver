@@ -1,7 +1,7 @@
 # dde_network_solver 
 ## a programm for solving coupled delay differential equations written in C++
 
-this solver has of network capabilities in order easily construct complex network topologies with multiple delays.
+this solver has network capabilities in order easily construct complex network topologies with multiple delays.
 
 ### Needed packages: 
 C++, gcc, cmake, armadillo
