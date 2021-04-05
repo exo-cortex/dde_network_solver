@@ -3,6 +3,7 @@
 
 #include "../include/network.hpp"
 #include "../include/parser.hpp"
+#include "../include/timeseries.hpp"
 // #include "../include/constants.hpp"
 
 using namespace std;
@@ -17,5 +18,10 @@ int main(int argc, char *argv[])
 	net.setEdgeGroup(1); // set/change edge-group to 1 (default is 0)
 	net.putRing(); // add a ring
 	net.printNetwork();
+
+	vector<vector<double>> segment(1000, vector<double>(0,1));
+
+	timeseries ts(0.01, 0, segment);
+
 
 }
