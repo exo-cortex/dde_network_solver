@@ -22,6 +22,6 @@ int main(int argc, char *argv[])
 	vector<vector<double>> segment(1000, vector<double>(0,1));
 
 	timeseries ts(0.01, 0, segment);
-
-
+	// ts.analyseSegment();
+	ts.simplifyWrite();
 }

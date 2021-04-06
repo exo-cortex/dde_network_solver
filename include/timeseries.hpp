@@ -26,7 +26,7 @@ public:
 		globalMin = 0;
 		globalMax = 0;
 		globalAverage = 0;
-	};
+	}
 
 	void update(){
 		currentSegmentStart = currentSegmentEnd;
@@ -39,13 +39,10 @@ public:
 	}
 
 	// see old solver
-	void checkMin(){};
-	void checkMax(){};
+	void checkMin();
+	void checkMax();
 
-	void simplifyWrite(){
-		for (vector<double> &sequence : currentSegment){
-			// use RDP curve-simplification, but rewrite for faster execution 
-		};
-	}
+	void simplifyWrite();
+	void simplifyRecursive(vector<double>& segment);
 
 };

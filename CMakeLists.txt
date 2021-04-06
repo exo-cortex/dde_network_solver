@@ -14,4 +14,5 @@ add_executable(solver
     src/main.cpp
     src/network.cpp
     src/parser.cpp
+    src/timeseries.cpp
 )
