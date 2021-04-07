@@ -1,7 +1,9 @@
 #pragma once
 
+#include <iostream>
 #include <vector>
 #include <fstream>
+#include <cmath>
 
 using namespace std;
 
@@ -15,34 +17,22 @@ class timeseries {
 private:
 	double stepSize;
 	double globalMin, globalMax, globalAverage;
-	double currentSegmentStart, currentSegmentEnd;
-	vector<vector<double>> &currentSegment; // make ref? alternatively use this timeseries
+	double segmentStart, segmentEnd;
+	vector<vector<double>> &segment; // make ref? alternatively use this timeseries
 	vector<uniqueEx> uniqueMin, uniqueMax;
 	vector<ofstream> files;
 public:
-	timeseries(double _stepSize, double _currentSegmentStart, vector<vector<double>> _timeseries)
-	: stepSize(_stepSize), currentSegmentStart(_currentSegmentStart), currentSegment(_timeseries) {
-		currentSegmentEnd = currentSegmentStart + (double)currentSegment.size() * stepSize;
-		globalMin = 0;
-		globalMax = 0;
-		globalAverage = 0;
-	}
+	timeseries(double _stepSize, double _segmentStart, vector<vector<double>> &_timeseries);
 
-	void update(){
-		currentSegmentStart = currentSegmentEnd;
-		currentSegmentEnd += (double)currentSegment.size() * stepSize;
-		analyseSegment();
-	}
+	void update();
 
-	void analyseSegment(){
-
-	}
+	void analyseSegment();
 
 	// see old solver
 	void checkMin();
 	void checkMax();
 
 	void simplifyWrite();
-	void simplifyRecursive(vector<double>& segment);
+	void simplifyRecursive(vector<double> &subSegment, uint begin, uint end);
 
 };
