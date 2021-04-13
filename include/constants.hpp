@@ -1,13 +1,23 @@
 #pragma once
 
 #include <iostream>
+#include <string>
+#include <fstream>
 #include <vector>
 #include <random>
 
-using namespace std;
+// using namespace std;
 
-// global constants
+extern const double INVERSE_DT;
+extern double STEPSIZE;
 
-vector<mt19937> NETWORK_RANDOM_NUMBER_GENERATOR(4);
-uniform_real_distribution<double> UNIFORM_SYMMETRIC(-1,1);
-uniform_real_distribution<double> UNIFORM(0,1);
+extern std::vector<std::mt19937> NETWORK_RANDOM_NUMBER_GENERATOR;
+extern std::uniform_real_distribution<double> UNIFORM_SYMMETRIC;
+extern std::uniform_real_distribution<double> UNIFORM;
+
+extern std::string DIRECTORY_PATH;
+
+
+// switches
+extern bool WRITE_TIMESERIES;
+extern std::vector<std::ofstream> TIMESERIES_FILES;

@@ -12,21 +12,10 @@
 
 using namespace std;
 
-
-// network stuff --> see network.hpp
-
-class timeseries
-{
-	vector<vector<double>> m_timseriesSegment; // has segments of timeseries in order to process segments sequentially.
-	vector<vector<double>> uniqueMinima, uniqueMaxima;
-	
-	double timeStart, timeEnd;
-	double globalMin, globalMax, globalAverage;
-	
-	void simplifyAndSave();
-	void findExtrema();
-
-}
+timeseries:
+	fine timeseries of state for integration and delay
+	coarse timeseries for analysis and saving
+];
 
 class calculation
 {

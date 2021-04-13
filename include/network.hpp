@@ -13,23 +13,20 @@ using namespace std;
 struct edge{
 	uint to;
 	uint from;
-	double strength;
-	double phase;
-	double delay;
+	double delay, strength, phase;
 	uint edgeGroup; // assign edge to a group (for later manipulation of edges by group)
 	edge();
 	edge(uint to, uint from, double delay, double strength, double phase, uint edgeGroup);
 };
 
-
 class network 
 {
 private:
 	uint m_N; // number of nodes
+	double m_delay, m_strength, m_phase; // default values
 	uint m_currentEdgeGroup;
 	vector<uint> m_edgeGroupList;
 	vector<edge> m_allEdges; // has list of edges
-	double m_delay, m_strength, m_phase; // default values
 	// has helper functions to check. (max delay from/to  node, number of connections from/to node etc)
 	bool edgeIsNew(uint _toNode, uint _fromNode, double _delay);
 	void countEdgeGroups();

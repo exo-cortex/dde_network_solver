@@ -4,6 +4,8 @@
 #include <vector>
 #include <fstream>
 #include <cmath>
+// #include <experimental/filesystem>
+
 
 using namespace std;
 
@@ -12,17 +14,25 @@ struct uniqueEx {
 	unsigned int counts = 0;
 };
 
-
 class timeseries {
 private:
-	double stepSize;
-	double globalMin, globalMax, globalAverage;
+	// const double stepSize = 0.01;
+	const uint numOscillators;
+	const double segmentLength; 
 	double segmentStart, segmentEnd;
-	vector<vector<double>> &segment; // make ref? alternatively use this timeseries
+	double globalMin, globalMax, globalAverage;
+
+	vector<vector<double>> segment; // make ref? alternatively use this timeseries
+	const uint segmentSize;
+	vector<double> almostLastElement, lastElement;
 	vector<uniqueEx> uniqueMin, uniqueMax;
-	vector<ofstream> files;
+
+	// vector<ofstream> &files;
 public:
-	timeseries(double _stepSize, double _segmentStart, vector<vector<double>> &_timeseries);
+
+	timeseries(uint _numOscillators, double _segmentLength);
+	void openTimeseriesFiles();
+	void closeTimeseriesFiles();
 
 	void update();
 
@@ -33,6 +43,6 @@ public:
 	void checkMax();
 
 	void simplifyWrite();
-	void simplifyRecursive(vector<double> &subSegment, uint begin, uint end);
+	void simplifyRecursive(vector<double> &subSegment, ofstream& traceOutStream, uint begin, uint end, double _epsilon);
 
 };

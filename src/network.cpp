@@ -1,9 +1,13 @@
-#include "../include/network.hpp"
 #include "../include/constants.hpp"
+#include "../include/network.hpp"
 
 using namespace std;
 
 bool ADD_WEIGHTS = false;
+
+std::vector<std::mt19937> NETWORK_RANDOM_NUMBER_GENERATOR(4);
+std::uniform_real_distribution<double> UNIFORM_SYMMETRIC(-1,1);
+std::uniform_real_distribution<double> UNIFORM(0,1);
 
 // edge
 edge::edge(uint to, uint from, double delay, double strength, double phase, uint edgeGroup)
