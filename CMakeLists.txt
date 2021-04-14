@@ -3,8 +3,9 @@ project(solver VERSION 4)
 
 add_compile_options(
     -std=c++17
-    -O3
+    -O1
     -g
+    -Wall
 )
 include_directories(include)
 # link_directories(/usr/lib/armadillo)

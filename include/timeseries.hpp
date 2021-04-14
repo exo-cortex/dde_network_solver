@@ -1,11 +1,12 @@
 #pragma once
 
 #include <iostream>
+#include <iomanip>
 #include <vector>
 #include <fstream>
 #include <cmath>
-// #include <experimental/filesystem>
 
+#include <filesystem>
 
 using namespace std;
 
@@ -19,20 +20,24 @@ private:
 	// const double stepSize = 0.01;
 	const uint numOscillators;
 	const double segmentLength; 
-	double segmentStart, segmentEnd;
-	double globalMin, globalMax, globalAverage;
 
 	vector<vector<double>> segment; // make ref? alternatively use this timeseries
 	const uint segmentSize;
+	double globalMin, globalMax, globalAverage;
+	double segmentStart, segmentEnd;
 	vector<double> almostLastElement, lastElement;
 	vector<uniqueEx> uniqueMin, uniqueMax;
 
-	// vector<ofstream> &files;
 public:
 
-	timeseries(uint _numOscillators, double _segmentLength);
-	void openTimeseriesFiles();
-	void closeTimeseriesFiles();
+	timeseries(uint _numOscillators, double _segmentStart, double _segmentLength);
+	~timeseries();
+
+	void create_test_segment();
+
+
+	void openTimeseriesFiles(string _filename);
+	void closeTimeseriesFiles(); // move into descructor ?
 
 	void update();
 
