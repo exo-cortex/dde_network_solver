@@ -6,6 +6,7 @@ add_compile_options(
     -O1
     -g
     -Wall
+    # -march=native
 )
 include_directories(include)
 # link_directories(/usr/lib/armadillo)

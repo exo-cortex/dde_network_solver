@@ -4,11 +4,10 @@ using namespace std;
 
 void parser::readCommandline(int argc, char *argv[])
 {
-    for (uint i = 0; i < argc; ++i){
+    for (int i = 0; i < argc; ++i){
         cout << argv[i] << '\t';
     }
     cout << '\n';
-
 
 
 }

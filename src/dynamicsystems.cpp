@@ -5,21 +5,21 @@ using namespace std;
 
 double STEPSIZE;
 
-stuartlandau::stuartlandau(){
-}
+// stuartlandau::stuartlandau()
+// {
+// }
 
-stuartlandau::stuartlandau(vector<complex<double>> &history)
-: history(history)
-{
-    it = history.begin();
-}
+// stuartlandau::stuartlandau(vector<complex<double>> &history)
+// : history(history)
+// {
+// 	it = history.begin();
+// }
 
-stuartlandau::advanceIterator(){
-    if (++it == history.end()){
-        it = history.begin();
-    }
-}
+// stuartlandau::advanceIterator()
+// {
+// 	if (++it == history.end()) it = history.begin();
+// }
 
-stuartlandau::update(){
-    
-}
+// void stuartlandau::update(){
+
+// }
