@@ -2,27 +2,57 @@
 
 #include <iostream>
 #include <vector>
-#include <iterator>
 #include <complex>
 #include <cmath>
+#include <iterator>
 #include <map>
 
 using namespace std;
 
-// abstract oscillator/dynamical systems class
 class dynamicalSystem {
-
-protected:
-	vector<vector<complex<double>>>::iterator selfHistory;
-	vector<vector<complex<double>>> &nodeHistory; // here: a vector of vectors, because delayed state AND delayed slope (derivative) have to be saved
-	const map<string, double> &systemParameters;
-
-	void update();
-	void advanceIterators();
+private:
 public:
-	dynamicalSystem(vector<vector<complex<double>>> &history, map<string, double> &systemParameters);
-
+	map<const string, double> m_Parameters;
+	dynamicalSystem(map<const string, double> _parameters);
 };
+
+dynamicalSystem::dynamicalSystem(map<const string, double> _parameters)
+: m_Parameters(_parameters)
+{
+}
+
+class stuartLandau : public dynamicalSystem {
+public:
+	stuartLandau(map<const string, double> _paramterMap, vector<vector<complex<double>>> &selfHistory);
+	vector<vector<complex<double>>>::iterator it;
+	vector<vector<complex<double>>> &selfHistory;
+};
+
+stuartLandau::stuartLandau(map<const string, double> _paramterMap, vector<vector<complex<double>>> &selfHistory)
+: dynamicalSystem(_paramterMap), selfHistory(selfHistory)
+{
+	for (const auto& [key, value] : m_Parameters) cout << key << " = " << value << '\n';
+};
+
+// abstract oscillator/dynamical systems class
+// class dynamicalSystem {
+
+// protected:
+// 	vector<vector<complex<double>>>::iterator selfHistory;
+// 	vector<vector<complex<double>>> &nodeHistory; // here: a vector of vectors, because delayed state AND delayed slope (derivative) have to be saved
+// 	const map<const string, double> &systemParameters;
+
+// 	virtual void update();
+// 	virtual void advanceIterators();
+// public:
+// 	dynamicalSystem(vector<vector<complex<double>>> &history, map<const string, double> &systemParameters);
+
+// };
+
+
+// class stuartLandau : public dynamicalSystem {
+
+// };
 
 // class nodeStuartLandau {
 // 	struct stateStuartLandau {
@@ -85,4 +115,3 @@ public:
 // 	void updateState();
 
 // };
-

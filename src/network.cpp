@@ -115,6 +115,7 @@ void network::putEdge(uint _toNode, uint _fromNode, double _delay, double _stren
 }
 
 void network::putEdge(uint _toNode, uint _fromNode, double _delay, double _strength, double _phase){
+	if (_toNode >= m_N && _fromNode >= m_N) return;
 	if (edgeIsNew(_toNode, _fromNode, _delay)) m_allEdges.push_back(edge(_toNode, _fromNode, _delay, _strength, _phase, m_currentEdgeGroup));
 	else { // if a similar edge already exists
 		for (edge &e : m_allEdges){
@@ -131,7 +132,7 @@ void network::putEdge(uint _toNode, uint _fromNode, double _delay, double _stren
 
 void network::putRing(){
 	for (uint Ni = 0; Ni < m_N; ++Ni){
-		putEdge(Ni, (Ni - 1) % m_N);
+		putEdge(Ni, (Ni - 1 + m_N) % m_N);
 	}
 }
 
@@ -294,7 +295,8 @@ void network::printNetwork()
 
 	for (uint eGroup : m_edgeGroupList)
 	{
-		cout << "=======================================================================================\n edge group [" << eGroup << "]\n";
+		cout << "======================================================================\n";
+		cout << " edge group [" << eGroup << "]\n";
 		for (uint Ni = 0; Ni < m_N; ++Ni)
 		{
 			// cout << "node " 	<< setw(2) << Ni << "\n";
@@ -302,7 +304,7 @@ void network::printNetwork()
 			{
 				if (e.edgeGroup == eGroup && e.to == Ni)
 				{
-					cout << "\t\t" << setw(2) << setfill(' ') << e.to << " <-- " << e.from;
+					cout << "\t" << setw(2) << setfill(' ') << e.to << " <-- " << e.from;
 					cout << setprecision(4) << setw(4) << setfill('0') << "\tdelay = " << e.delay << "\tkappa = " << e.strength << "\tphi/2pi = " << e.phase << "\t\n";
 				}
 			}

@@ -1,6 +1,8 @@
 #include <iostream>
 #include <armadillo>
 
+// see https://stackoverflow.com/questions/67195147/directly-accessing-entries-of-armadillo-matrix-by-memory-pointer-memptr-does-n
+
 struct someStruct {
 	const double *currentStateInMatrix;
 	void printvalue() {std::cout << "*currentState (pointer to first enty of matrix) = " << *currentStateInMatrix << std::endl;}

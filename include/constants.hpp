@@ -24,8 +24,7 @@ extern std::vector<std::ofstream> TIMESERIES_FILES;
 // switches
 extern bool WRITE_TIMESERIES;
 
-// physical constants
-
+// physical constants (from andrej)
 namespace physical {
     const double e    = 1.6021766208e-19;		// elementary charge in C
     const double hbar = 6.582119514e-13;		// Planck constant in meVs

@@ -22,7 +22,7 @@ prefix with a [tag] describing the category e.g. [feature], [bugfix], [etc].
 
 ### TODO
 
-* [dynamical systems] add {Stuart-Landau, Lang-Kobayashi, ...} as dynamical systems
+* [dynamical systems] add {Stuart-Landau, Lang-Kobayashi, Microscopically-Derived-Rate-Equations, Lorenz-Attractor, Rössler-Attractor, ...} as dynamical systems
 * [analysis] implement timeseries analysis class with member functions for {min, max, uniqueMin, uniqueMax, globalAverage, simplifyAndSave, ...}
 * [parser] implement and improve upon old parser for full commandline-operation
 * [calculation] add poisson-disc sampling with adaptable disc-radius - implement adaptive sampling in order to sample only parameters in areas with interesting * results. 

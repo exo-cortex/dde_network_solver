@@ -5,6 +5,8 @@ using namespace std;
 
 double STEPSIZE;
 
+
+
 // stuartlandau::stuartlandau()
 // {
 // }
