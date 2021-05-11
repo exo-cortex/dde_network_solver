@@ -28,4 +28,4 @@ prefix with a [tag] describing the category e.g. [feature], [bugfix], [etc].
 * [calculation] add poisson-disc sampling with adaptable disc-radius - implement adaptive sampling in order to sample only parameters in areas with interesting * results. 
 * [rc] add reservoir-computing.
 * [network] add methods for conversion between formats {list-of-edges, adjacency-matrices} and saving of networks into file, enable naming of edge-groups i.e. "edge-group [0] 'ring'".
-* [logger/interface] add special output e.g. horizontal line, progress bar methods for contructing log outnput
+* [logger/interface] add special output e.g. horizontal line, progress bar methods for contructing log output

@@ -6,6 +6,9 @@
 #include <vector>
 #include <random>
 
+#include "../include/logger.hpp"
+
+// structlog LOGCFG = {};
 // using namespace std;
 
 extern const double INVERSE_DT;

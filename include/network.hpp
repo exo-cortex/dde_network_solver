@@ -33,8 +33,8 @@ private:
 public:
 	void sumCouplingStrengths(); // make private?
 	// constructors
-	network(string _edgeGroup = "unnamed edge group"); // network created with 0 nodes
-	network(uint N, string _edgeGroup = "unnamed edge group"); // set / change number of nodes (can remove edges)
+	network(string _edgeGroup = "unnamed"); // network created with 0 nodes
+	network(uint N, string _edgeGroup = "unnamed"); // set / change number of nodes (can remove edges)
 	network(uint N, double _delay, double _strength, double _phase, string _edgeGroupName = ""); // set nodes and default values
 	
 	// methods to set / change number of nodes / set defaults

@@ -2,12 +2,14 @@
 // #include <chrono>
 #include <cmath>
 #include <filesystem>
+#include <map>
 
+#include "../include/logger.hpp"
 #include "../include/constants.hpp"
 #include "../include/network.hpp"
-// #include "../include/parser.hpp"
 #include "../include/timeseries.hpp"
-#include "../include/dynamicsystems.hpp"
+// #include "../include/parser.hpp"
+// #include "../include/dynamicsystems.hpp"
 
 using namespace std;
 
@@ -19,18 +21,15 @@ bool WRITE_TIMESERIES = true;
 string MAIN_DIRECTORY_PATH = "../test_data";
 // ++++++++++++++++++++++++++++++++
 
+structlog LOGCFG = {};
 
 int main(int argc, char *argv[]) 
 {
+	LOGCFG.level = INFO;
 
 	// stuff that will later be done somewhere else
 	filesystem::create_directories(MAIN_DIRECTORY_PATH);
-
-	uint numOsc = 1;
 	
-	timeseries ts(numOsc, 0, 1000.0);
-
-	// ts.simplifyWrite();
 	map<const string, double> parametersStuartLandau {
 	{"lambda", 0.123},
 	{"omega", 1.0},
@@ -38,14 +37,25 @@ int main(int argc, char *argv[])
 	{"gammaIm", 1.0},
 	{"inputG", 0.1}};
 
-	vector<vector<complex<double>>> history(10, vector<complex<double>>(2, 0));
-
-	stuartLandau(parametersStuartLandau, history);
-
-	network net(11);
-	net.setDefaults(13, 0.1, 0.25);
+	network net(12, "ring");
+	net.setDefaults(10, 0.08, 0.25);
 	net.putRing();
-	net.printNetwork();
-	
+	net.nextEdgeGroup("jumps");
+	net.setDefaults(100, 0.1, 0.35);
+	net.putJumps(4,2);
+	net.nextEdgeGroup("randomJump");
+	net.setDefaults(33, 0.05, 0.125);
+	net.putEdge(3, 9);
 
+	net.printNetwork();
+
+	LOG(INFO, BEGIN);
+	LOG(INFO, YELLOW, ITALIC) << "WARNING!!!";
+	LOG(INFO, GREEN, BOLD) << "WARNING!!!";
+	LOG(INFO, END);
+
+	// LOG(WARN, BEGIN) << "something";
+	// LOG() << "holla, next element";
+	// LOG() << "THIRDELEMENT";
+	// LOG(WARN, END);
 }
