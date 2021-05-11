@@ -1,3 +1,4 @@
+#include "../include/logger.hpp"
 #include "../include/constants.hpp"
 #include "../include/network.hpp"
 
@@ -10,20 +11,27 @@ std::uniform_real_distribution<double> UNIFORM_SYMMETRIC(-1,1);
 std::uniform_real_distribution<double> UNIFORM(0,1);
 
 // edge
+edge::edge(){};
+
 edge::edge(uint to, uint from, double delay, double strength, double phase, uint edgeGroup)
 	: to(to), from(from), delay(delay), strength(strength), phase(phase), edgeGroup(edgeGroup){};
 
-edge::edge(){};
 
 // network
-network::network()
-	: m_N(0), m_currentEdgeGroup(0){};
+network::network(string _edgeGroup)
+	: m_N(0), m_currentEdgeGroup(0) {
+		m_edgeGroups.emplace_back(_edgeGroup);
+	};
 
-network::network(uint N)
-	: m_N(N), m_currentEdgeGroup(0){};
+network::network(uint N, string _edgeGroup)
+	: m_N(N), m_currentEdgeGroup(0) {
+		m_edgeGroups.emplace_back(_edgeGroup);
+	};
 
-network::network(uint N, double _delay, double _strength, double _phase)
-	: m_N(N), m_delay(_delay), m_strength(_strength), m_phase(_phase), m_currentEdgeGroup(0){};
+network::network(uint N, double _delay, double _strength, double _phase, string _edgeGroupName)
+	: m_N(N), m_delay(_delay), m_strength(_strength), m_phase(_phase), m_currentEdgeGroup(0) {
+		m_edgeGroups.emplace_back(_edgeGroupName);
+	};
 
 void network::setNodes(uint _N){
 	if (_N >= m_N) m_N = _N;
@@ -37,10 +45,11 @@ void network::setNodes(uint _N){
 }
 
 // helper methods
-void network::setDefaults(double _delay, double _strength, double _phase){
+void network::setDefaults(double _delay, double _strength, double _phase, string _currentEdgeGroupName){
 	m_delay = _delay;
 	m_strength = _strength;
 	m_phase = _phase;
+	// *(m_edgeGroups.end() - 1) = _currentEdgeGroupName;
 }
 
 void network::seedRandomSeed(uint _randomSeedWeights, int _randomSeedPhase = -1, int _randomSeedDelay = -1, int _randomSeedSmallworldRedirection = -1){
@@ -50,8 +59,14 @@ void network::seedRandomSeed(uint _randomSeedWeights, int _randomSeedPhase = -1,
 	if (_randomSeedSmallworldRedirection == -1) NETWORK_RANDOM_NUMBER_GENERATOR[3].seed(_randomSeedWeights);
 }
 
-void network::setEdgeGroup(uint _edgeGroup){
-	m_currentEdgeGroup = _edgeGroup;
+void network::nextEdgeGroup(string _edgeGroupName) {
+	m_edgeGroups.emplace_back(_edgeGroupName);
+	m_currentEdgeGroup += 1;
+}
+
+void network::selectExistingEdgeGroup(uint _edgeGroupIndex) {
+	if (_edgeGroupIndex < m_edgeGroups.size()) m_currentEdgeGroup = _edgeGroupIndex;
+	return;
 }
 
 bool network::edgeIsNew(uint _toNode, uint _fromNode, double _delay){
@@ -59,19 +74,6 @@ bool network::edgeIsNew(uint _toNode, uint _fromNode, double _delay){
 		if (e.to == _toNode && e.from == _fromNode && e.delay == _delay) return false;
 	}
 	return true;
-}
-
-void network::countEdgeGroups(){
-	for (edge& e : m_allEdges){
-		bool edgeGroupexists = false;
-		if (m_edgeGroupList.size() > 0){
-			for (uint eg : m_edgeGroupList){
-				if (eg == e.edgeGroup) edgeGroupexists = true;
-			}
-		}
-		// cout << "diese funktion funktioniert nicht: countEdgeGroups !\n";
-		if (!edgeGroupexists) m_edgeGroupList.push_back(e.edgeGroup);
-	}
 }
 
 void network::sumCouplingStrengths(){
@@ -115,7 +117,7 @@ void network::putEdge(uint _toNode, uint _fromNode, double _delay, double _stren
 }
 
 void network::putEdge(uint _toNode, uint _fromNode, double _delay, double _strength, double _phase){
-	if (_toNode >= m_N && _fromNode >= m_N) return;
+	if (_toNode >= m_N || _fromNode >= m_N) return;
 	if (edgeIsNew(_toNode, _fromNode, _delay)) m_allEdges.push_back(edge(_toNode, _fromNode, _delay, _strength, _phase, m_currentEdgeGroup));
 	else { // if a similar edge already exists
 		for (edge &e : m_allEdges){
@@ -284,36 +286,33 @@ void network::smallWorldRedirectInterpolations(double _redirectionLikelyhood, do
 // logging
 void network::printNetwork()
 {
-	countEdgeGroups();
 	cout << "showing contents of network:\n";
-	cout << m_N << " nodes, ";
-	cout << m_edgeGroupList.size() << " group(s) of edges [ ";
-	for (const uint eg : m_edgeGroupList){
-		cout << eg << ' ';
+	cout << m_N << " nodes with " << m_allEdges.size() << " edges in " << m_edgeGroups.size() << " edge groups [ ";
+	for (uint egN = 0; egN < m_edgeGroups.size(); ++egN){
+		cout << egN << ' ';
 	}
-	cout << "] with a total number of " << m_allEdges.size() << " edges.\n";
+	cout << "]\n";
 
-	for (uint eGroup : m_edgeGroupList)
+	for (uint egN = 0; egN < m_edgeGroups.size(); ++egN)
 	{
-		cout << "======================================================================\n";
-		cout << " edge group [" << eGroup << "]\n";
+		LOG(INFO, CYAN) << "==========================================================================";
+		LOG(INFO) << " edge group [" << LOG().color(GREEN, BOLD) << egN << LOG().color(NONE, DEFAULT) << "] \"" << m_edgeGroups[egN] << "\"";
 		for (uint Ni = 0; Ni < m_N; ++Ni)
 		{
 			// cout << "node " 	<< setw(2) << Ni << "\n";
 			for (const edge &e : m_allEdges)
 			{
-				if (e.edgeGroup == eGroup && e.to == Ni)
+				if (e.edgeGroup == egN && e.to == Ni)
 				{
-					cout << "\t" << setw(2) << setfill(' ') << e.to << " <-- " << e.from;
-					cout << setprecision(4) << setw(4) << setfill('0') << "\tdelay = " << e.delay << "\tkappa = " << e.strength << "\tphi/2pi = " << e.phase << "\t\n";
+					LOG(INFO) << "\t" << setw(2) << setfill(' ') << e.to << " <-- " << e.from << setprecision(4) << setw(4) << setfill('0') << "\tdelay = " << e.delay << "\tkappa = " << e.strength << "\tphi/2pi = " << e.phase << "\t";
 				}
 			}
 		}
 	}
+	LOG(INFO, CYAN) << "==========================================================================";
 }
 
 void network::printNetworkHelp()
 {
 	cout << "network class v0.1. a class that creates delay-coupled networks based on edges.\nedges consist of: [reveiver] <-- [sender], delay tau, strength kappa and phase phi.\n";
 }
-

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+// #include <string>
 #include <iomanip>
 #include <cmath>
 #include <complex>
@@ -25,23 +26,23 @@ private:
 	uint m_N; // number of nodes
 	double m_delay, m_strength, m_phase; // default values
 	uint m_currentEdgeGroup;
-	vector<uint> m_edgeGroupList;
+	vector<string> m_edgeGroups;
 	vector<edge> m_allEdges; // has list of edges
 	// has helper functions to check. (max delay from/to  node, number of connections from/to node etc)
 	bool edgeIsNew(uint _toNode, uint _fromNode, double _delay);
-	void countEdgeGroups();
 public:
 	void sumCouplingStrengths(); // make private?
 	// constructors
-	network(); // network created with 0 nodes
-	network(uint N); // set / change number of nodes (can remove edges)
-	network(uint N, double _delay, double _strength, double _phase); // set nodes and default values
+	network(string _edgeGroup = "unnamed edge group"); // network created with 0 nodes
+	network(uint N, string _edgeGroup = "unnamed edge group"); // set / change number of nodes (can remove edges)
+	network(uint N, double _delay, double _strength, double _phase, string _edgeGroupName = ""); // set nodes and default values
 	
 	// methods to set / change number of nodes / set defaults
 	void setNodes(uint N);
-	void setDefaults( double _delay, double _strength, double _phase);
+	void setDefaults(double _delay, double _strength, double _phase, string _currentEdgeGroupName = "");
 	void seedRandomSeed(uint _randomSeedWeights, int _randomSeedPhase, int _randomSeedDelay, int _randomSeedSmallworldRedirection);
-	void setEdgeGroup(uint _newEdgeGroup);
+	void nextEdgeGroup(string _edgeGroupName = "");
+	void selectExistingEdgeGroup(uint _edgeGroupIndex);
 
 	// methods to add edges
 	void putEdge(uint _toNode, uint _fromNode);
