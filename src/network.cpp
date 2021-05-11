@@ -295,8 +295,8 @@ void network::printNetwork()
 
 	for (uint egN = 0; egN < m_edgeGroups.size(); ++egN)
 	{
-		LOG(INFO, CYAN) << "==========================================================================";
-		LOG(INFO) << " edge group [" << LOG().color(GREEN, BOLD) << egN << LOG().color(NONE, DEFAULT) << "] \"" << m_edgeGroups[egN] << "\"";
+		LOG(INFO, CYAN) << LOG().printline();
+		LOG(INFO) << " edge group [" << LOG().color(YELLOW, BOLD) << egN << LOG().color(NONE, DEFAULT) << "] \"" << m_edgeGroups[egN] << "\"";
 		for (uint Ni = 0; Ni < m_N; ++Ni)
 		{
 			// cout << "node " 	<< setw(2) << Ni << "\n";
@@ -309,7 +309,7 @@ void network::printNetwork()
 			}
 		}
 	}
-	LOG(INFO, CYAN) << "==========================================================================";
+	LOG(INFO, CYAN) << LOG().printline();
 }
 
 void network::printNetworkHelp()

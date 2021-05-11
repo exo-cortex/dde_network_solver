@@ -48,14 +48,4 @@ int main(int argc, char *argv[])
 	net.putEdge(3, 9);
 
 	net.printNetwork();
-
-	LOG(INFO, BEGIN);
-	LOG(INFO, YELLOW, ITALIC) << "WARNING!!!";
-	LOG(INFO, GREEN, BOLD) << "WARNING!!!";
-	LOG(INFO, END);
-
-	// LOG(WARN, BEGIN) << "something";
-	// LOG() << "holla, next element";
-	// LOG() << "THIRDELEMENT";
-	// LOG(WARN, END);
 }

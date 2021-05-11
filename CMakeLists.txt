@@ -3,11 +3,11 @@ project(solver VERSION 4)
 
 add_compile_options(
     -std=c++17
-    -O1
+    -O3
     -g
     -Wall
-    # -march=native
-    # -flto
+    -march=native
+    -flto
 )
 
 include_directories(include)

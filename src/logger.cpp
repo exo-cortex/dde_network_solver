@@ -101,3 +101,11 @@ inline string LOG::getColor(typeColor _color, typeStyle _style, typeColor _backg
 	}
 	return s + "m"; // for example "\033[0;31;43m" for normal red text on yellow background
 }
+
+string LOG::printline(string _character, uint _num) {
+	string s = "";
+	for (uint n = 0; n < _num; ++n) {
+		s += _character;
+	}
+	return s;
+}

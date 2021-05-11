@@ -75,6 +75,7 @@ public:
 	}
 
 	string color(typeColor _color = NONE, typeStyle _style = DEFAULT, typeColor _background = NONE);
+	string printline(string _character = "-", uint _num = 80);
 
 private:
 	bool opened = false;
