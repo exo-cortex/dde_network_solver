@@ -1,5 +1,5 @@
 
-compilieren einfach mit:
+compile with:
 g++ dynamic_main.cpp -o main
 
 or "make"

@@ -203,6 +203,10 @@ void network::randomizeWeights(double _amount){
 }
 
 void network::randomizeWeights(double _amount, uint _edgeGroup){
+	if (_edgeGroup >= m_edgeGroups.size()) {
+		LOG(WARN) << "[randomize weights]" << LOG().color(RED) << " edge-group " << _edgeGroup << " does not exist.";
+		return; 
+	}
 	for (edge &e : m_allEdges){
 		if (e.edgeGroup == _edgeGroup) e.strength *= (1 + _amount * UNIFORM_SYMMETRIC(NETWORK_RANDOM_NUMBER_GENERATOR[0]));
 	}
@@ -215,6 +219,10 @@ void network::randomizePhase(double _amount){
 }
 
 void network::randomizePhase(double _amount, uint _edgeGroup){
+	if (_edgeGroup >= m_edgeGroups.size()) {
+		LOG(WARN) << "[randomize phase]" << LOG().color(RED) << " edge-group " << _edgeGroup << " does not exist.";
+		return; 
+	}
 	for (edge &e : m_allEdges){
 		if (e.edgeGroup == _edgeGroup) e.phase += _amount * UNIFORM_SYMMETRIC(NETWORK_RANDOM_NUMBER_GENERATOR[1]);
 	}
@@ -227,6 +235,10 @@ void network::randomizeDelay(double _amount){
 }
 
 void network::randomizeDelay(double _amount, uint _edgeGroup){
+	if (_edgeGroup >= m_edgeGroups.size()) {
+		LOG(WARN) << "[randomize delay]" << LOG().color(RED) << " edge-group " << _edgeGroup << " does not exist.";
+		return; 
+	}
 	for (edge &e : m_allEdges){	
 		if (e.edgeGroup == _edgeGroup) e.delay *= 1 + _amount * UNIFORM_SYMMETRIC(NETWORK_RANDOM_NUMBER_GENERATOR[2]);
 	}
@@ -243,6 +255,10 @@ void network::smallWorldRedirect(double _redirectionLikelyhood){
 }
 
 void network::smallWorldRedirect(double _redirectionLikelyhood, uint _edgeGroup){
+	if (_edgeGroup >= m_edgeGroups.size()) {
+		LOG(WARN) << "[edge redirection]" << LOG().color(RED) << " edge-group " << _edgeGroup << " does not exist.";
+		return; 
+	}
 	for (edge &e : m_allEdges){
 		if (e.edgeGroup == _edgeGroup){
 			double randomValue = UNIFORM_SYMMETRIC(NETWORK_RANDOM_NUMBER_GENERATOR[3]);
@@ -282,7 +298,6 @@ void network::smallWorldRedirectInterpolations(double _redirectionLikelyhood, do
 }
 
 
-
 // logging
 void network::printNetwork()
 {
@@ -295,8 +310,8 @@ void network::printNetwork()
 
 	for (uint egN = 0; egN < m_edgeGroups.size(); ++egN)
 	{
-		LOG(INFO, CYAN) << LOG().printline();
-		LOG(INFO) << " edge group [" << LOG().color(YELLOW, BOLD) << egN << LOG().color(NONE, DEFAULT) << "] \"" << m_edgeGroups[egN] << "\"";
+		LOG(INFO, YELLOW) << LOG().printline();
+		LOG(INFO) << " edge group [" << LOG().color(BLUE, BOLD) << egN << LOG().color(NONE, DEFAULT) << "] \"" << m_edgeGroups[egN] << "\"";
 		for (uint Ni = 0; Ni < m_N; ++Ni)
 		{
 			// cout << "node " 	<< setw(2) << Ni << "\n";
@@ -304,12 +319,12 @@ void network::printNetwork()
 			{
 				if (e.edgeGroup == egN && e.to == Ni)
 				{
-					LOG(INFO) << "\t" << setw(2) << setfill(' ') << e.to << " <-- " << e.from << setprecision(4) << setw(4) << setfill('0') << "\tdelay = " << e.delay << "\tkappa = " << e.strength << "\tphi/2pi = " << e.phase << "\t";
+					LOG(INFO) << "  " << setw(2) << setfill(' ') << e.to << " <-- " << e.from << setprecision(4) << setw(4) << setfill('0') << "\tdelay = " << e.delay << "\tkappa = " << e.strength << "\tphi/2pi = " << e.phase << "\t";
 				}
 			}
 		}
 	}
-	LOG(INFO, CYAN) << LOG().printline();
+	LOG(INFO, YELLOW) << LOG().printline();
 }
 
 void network::printNetworkHelp()

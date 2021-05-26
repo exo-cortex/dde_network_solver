@@ -3,6 +3,8 @@
 
 DDEs i.e. delay differential equations are differential equations in which a dynamical system's state's derivative also depends on the previous states. Many natural processes can be modelled as DDEs such as laser equations. This solver has network capabilities in order easily construct complex network topologies with multiple delays.
 
+This project developed out of my master thesis, where I wrote a earlier version of this solver. With limited time in the finishing lane, a lot of ideas and improvements were left out. This solver aims to implement these ideas and improvements. This solver shall be able to calculate multiple perturbed delay-coupled dynamical systems connected via a complex network topology. The perturbation shall be used as to perform reservoir computation with the dynamical system and measure its performance through different benchmarks.
+
 ### Dependencies:
 C++17, gcc, cmake, armadillo
 
